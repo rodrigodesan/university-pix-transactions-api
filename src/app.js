@@ -13,9 +13,11 @@ const Transation = require('./models/Transation');
 
 
 const fs = require("fs");
-const rawData = fs.readFileSync('./resources/TransacoesPixPorMunicípio.json');
+const rawData = fs.readFileSync('./resources/TransacoesPixPorMunicipio.json');
 const transations = JSON.parse(rawData);
 const transationsValues = transations.value;
+
+console.log(transationsValues.length)
 
 /*
 let selectedYearMonths = [];
