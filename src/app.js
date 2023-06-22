@@ -8,7 +8,12 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 
-import transationRoutes from './routes/transation';
+import cityRoutes from './routes/cityRoutes';
+import regionRoutes from './routes/regionRoutes';
+import stateRoutes from './routes/stateRoutes';
+import transationRoutes from './routes/transationRoutes';
+import yearMonthRoutes from './routes/yearMonthRoutes';
+import yearRoutes from './routes/yearRoutes';
 
 const whiteList = [
   'http://localhost:3000',
@@ -40,7 +45,12 @@ class App {
   }
 
   routes() {
+    this.app.use('/cities', cityRoutes);
+    this.app.use('/regions', regionRoutes);
+    this.app.use('/states', stateRoutes);
     this.app.use('/transations', transationRoutes);
+    this.app.use('/year-months', yearMonthRoutes);
+    this.app.use('/years', yearRoutes);
   }
 }
 

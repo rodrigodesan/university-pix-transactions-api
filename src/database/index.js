@@ -12,3 +12,4 @@ const models = [Region, State, City, Year, YearMonth, Transation];
 const connection = new Sequelize(databaseConfig);
 
 models.forEach((model) => model.init(connection));
+models.forEach((model) => model.associate && model.associate(connection.models));

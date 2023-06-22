@@ -13,4 +13,9 @@ export default class State extends Model {
     });
     return this;
   }
+
+  static associate(models) {
+    this.belongsTo(models.Region, { foreignKey: 'region' });
+    this.hasMany(models.City, { foreignKey: 'state' });
+  }
 }

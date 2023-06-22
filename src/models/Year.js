@@ -11,4 +11,8 @@ export default class Year extends Model {
     });
     return this;
   }
+
+  static associate(models) {
+    this.hasMany(models.YearMonth, { foreignKey: 'id' });
+  }
 }

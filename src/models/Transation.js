@@ -13,11 +13,14 @@ export default class Transation extends Model {
       qt_individual_receiver: Sequelize.INTEGER,
       vl_company_receiver: Sequelize.FLOAT,
       qt_company_receiver: Sequelize.INTEGER,
-      city: Sequelize.INTEGER,
-      year_month: Sequelize.INTEGER,
     }, {
       sequelize,
     });
     return this;
+  }
+
+  static associate(models) {
+    this.belongsTo(models.YearMonth, { foreignKey: 'year_month' });
+    this.belongsTo(models.City, { foreignKey: 'city' });
   }
 }

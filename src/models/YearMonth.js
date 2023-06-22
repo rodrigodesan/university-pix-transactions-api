@@ -7,10 +7,14 @@ export default class YearMonth extends Model {
     super.init({
       month_num: Sequelize.INTEGER,
       month: Sequelize.STRING,
-      year: Sequelize.INTEGER,
     }, {
       sequelize,
     });
     return this;
+  }
+
+  static associate(models) {
+    this.hasMany(models.Transation, { foreignKey: 'year_month' });
+    this.belongsTo(models.Year, { foreignKey: 'year' });
   }
 }

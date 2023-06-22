@@ -7,10 +7,14 @@ export default class City extends Model {
     super.init({
       ibge_code: Sequelize.INTEGER,
       name: Sequelize.STRING,
-      state: Sequelize.INTEGER,
     }, {
       sequelize,
     });
     return this;
+  }
+
+  static associate(models) {
+    this.belongsTo(models.State, { foreignKey: 'state' });
+    this.hasMany(models.Transation, { foreignKey: 'city' });
   }
 }

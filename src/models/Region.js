@@ -12,4 +12,8 @@ export default class Region extends Model {
     });
     return this;
   }
+
+  static associate(models) {
+    this.hasMany(models.State, { foreignKey: 'region' });
+  }
 }
