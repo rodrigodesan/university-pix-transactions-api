@@ -1,13 +1,12 @@
 module.exports = {
-  async up (queryInterface, Sequelize) {
-
-     await queryInterface.createTable('cities', { 
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable('cities', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-      }, 
+      },
       ibge_code: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -19,9 +18,9 @@ module.exports = {
       state: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references:  {
+        references: {
           model: 'states',
-          key: 'id'
+          key: 'id',
         },
       },
       created_at: {
@@ -35,7 +34,7 @@ module.exports = {
     });
   },
 
-  async down (queryInterface) {
+  async down(queryInterface) {
     await queryInterface.dropTable('cities');
-  }
+  },
 };

@@ -1,7 +1,8 @@
-const Sequelize = require('sequelize');
-const Model = Sequelize.Model;
+import Sequelize from 'sequelize';
 
-class Transation extends Model {
+const { Model } = Sequelize;
+
+export default class Transation extends Model {
   static init(sequelize) {
     super.init({
       vl_individual_payer: Sequelize.FLOAT,
@@ -20,5 +21,3 @@ class Transation extends Model {
     return this;
   }
 }
-
-module.exports = Transation;

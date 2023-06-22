@@ -1,13 +1,12 @@
 module.exports = {
-  async up (queryInterface, Sequelize) {
-
-     await queryInterface.createTable('year_months', { 
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable('year_months', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-      }, 
+      },
       month_num: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -19,9 +18,9 @@ module.exports = {
       year: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references:  {
+        references: {
           model: 'years',
-          key: 'id'
+          key: 'id',
         },
       },
       created_at: {
@@ -35,7 +34,7 @@ module.exports = {
     });
   },
 
-  async down (queryInterface) {
+  async down(queryInterface) {
     await queryInterface.dropTable('year_months');
-  }
+  },
 };

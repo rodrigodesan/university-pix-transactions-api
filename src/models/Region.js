@@ -1,7 +1,8 @@
-const Sequelize = require('sequelize');
-const Model = Sequelize.Model;
+import Sequelize from 'sequelize';
 
-class Region extends Model {
+const { Model } = Sequelize;
+
+export default class Region extends Model {
   static init(sequelize) {
     super.init({
       acronym: Sequelize.STRING,
@@ -12,5 +13,3 @@ class Region extends Model {
     return this;
   }
 }
-
-module.exports = Region;

@@ -1,7 +1,8 @@
-const Sequelize = require('sequelize');
-const Model = Sequelize.Model;
+import Sequelize from 'sequelize';
 
-class YearMonth extends Model {
+const { Model } = Sequelize;
+
+export default class YearMonth extends Model {
   static init(sequelize) {
     super.init({
       month_num: Sequelize.INTEGER,
@@ -13,5 +14,3 @@ class YearMonth extends Model {
     return this;
   }
 }
-
-module.exports = YearMonth;

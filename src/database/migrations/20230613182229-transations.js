@@ -1,13 +1,12 @@
 module.exports = {
-  async up (queryInterface, Sequelize) {
-
-     await queryInterface.createTable('transations', { 
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable('transations', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-      }, 
+      },
       vl_individual_payer: {
         type: Sequelize.FLOAT,
         allowNull: false,
@@ -43,17 +42,17 @@ module.exports = {
       city: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references:  {
+        references: {
           model: 'cities',
-          key: 'id'
+          key: 'id',
         },
       },
       year_month: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references:  {
+        references: {
           model: 'year_months',
-          key: 'id'
+          key: 'id',
         },
       },
       created_at: {
@@ -67,7 +66,7 @@ module.exports = {
     });
   },
 
-  async down (queryInterface) {
+  async down(queryInterface) {
     await queryInterface.dropTable('transations');
-  }
+  },
 };

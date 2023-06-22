@@ -1,7 +1,8 @@
-const Sequelize = require('sequelize');
-const Model = Sequelize.Model;
+import Sequelize from 'sequelize';
 
-class City extends Model {
+const { Model } = Sequelize;
+
+export default class City extends Model {
   static init(sequelize) {
     super.init({
       ibge_code: Sequelize.INTEGER,
@@ -13,5 +14,3 @@ class City extends Model {
     return this;
   }
 }
-
-module.exports = City;

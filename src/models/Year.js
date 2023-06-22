@@ -1,7 +1,8 @@
-const Sequelize = require('sequelize');
-const Model = Sequelize.Model;
+import Sequelize from 'sequelize';
 
-class Year extends Model {
+const { Model } = Sequelize;
+
+export default class Year extends Model {
   static init(sequelize) {
     super.init({
       year: Sequelize.INTEGER,
@@ -11,5 +12,3 @@ class Year extends Model {
     return this;
   }
 }
-
-module.exports = Year;

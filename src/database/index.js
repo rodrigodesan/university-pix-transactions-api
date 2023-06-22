@@ -1,14 +1,14 @@
-const Sequelize = require('sequelize');
-const databaseConfig = require('../config/database');
-const Region = require('../models/Region');
-const State = require('../models/State');
-const City = require('../models/City');
-const Year = require('../models/Year');
-const YearMonth = require('../models/YearMonth');
-const Transation = require('../models/Transation');
+import Sequelize from 'sequelize';
+import databaseConfig from '../config/database';
+import Region from '../models/Region';
+import State from '../models/State';
+import City from '../models/City';
+import Year from '../models/Year';
+import YearMonth from '../models/YearMonth';
+import Transation from '../models/Transation';
 
-const models = [Region,State,City,Year,YearMonth,Transation];
+const models = [Region, State, City, Year, YearMonth, Transation];
 
 const connection = new Sequelize(databaseConfig);
 
-models.forEach(model => model.init(connection));
+models.forEach((model) => model.init(connection));
