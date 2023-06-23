@@ -24,9 +24,9 @@ class TransationController {
 
   async maxAvgStateByTransationVlPerTransationQt(req, res) {
     try {
-      const { year } = req.params;
+      const { year_id } = req.params;
 
-      if (!year) {
+      if (!year_id) {
         return res.status(400).json({
           errors: ['Missing YEAR'],
         });
@@ -52,7 +52,7 @@ class TransationController {
             include: [{
               model: Year,
               attributes: [],
-              where: { year },
+              where: { id: year_id },
               required: true,
             }],
             attributes: [],
@@ -63,7 +63,7 @@ class TransationController {
         group: ['City->State.id'],
         limit: 1,
       });
-      return res.json(transationsState);
+      return res.json(transationsState[0]);
     } catch (e) {
       console.log(e);
       return res.status(400).json({

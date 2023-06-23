@@ -15,9 +15,8 @@ import transationRoutes from './routes/transationRoutes';
 import yearMonthRoutes from './routes/yearMonthRoutes';
 import yearRoutes from './routes/yearRoutes';
 
-const whiteList = [
-  'http://localhost:3000',
-];
+const whiteList = (`${process.env.APP_WHITELIST}`).split(',');
+console.log(whiteList);
 
 const corsOptions = {
   origin(origin, callback) {
