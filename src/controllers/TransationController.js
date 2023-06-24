@@ -10,14 +10,14 @@ class TransationController {
   async index(___, res) {
     try {
       const transations = await Transation.findAll({
-        order: [['year_month', 'ASC']],
+        order: [['year_month']],
         limit: 10000,
       });
       return res.json(transations);
     } catch (e) {
       console.log(e);
       return res.status(400).json({
-        errors: ["Erro na busca"],
+        errors: ['Search error'],
       });
     }
   }
@@ -67,7 +67,7 @@ class TransationController {
     } catch (e) {
       console.log(e);
       return res.status(400).json({
-        errors: ["Erro na busca"],
+        errors: ['Search error'],
       });
     }
   }
