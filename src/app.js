@@ -16,7 +16,6 @@ import yearMonthRoutes from './routes/yearMonthRoutes';
 import yearRoutes from './routes/yearRoutes';
 
 const whiteList = (`${process.env.APP_WHITELIST}`).split(',');
-console.log(whiteList);
 
 const corsOptions = {
   origin(origin, callback) {
