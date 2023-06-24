@@ -13,6 +13,6 @@ export default class Year extends Model {
   }
 
   static associate(models) {
-    this.hasMany(models.YearMonth, { foreignKey: 'id' });
+    this.hasMany(models.YearMonth, { foreignKey: 'year' });
   }
 }
