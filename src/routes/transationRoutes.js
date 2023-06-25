@@ -8,5 +8,6 @@ router.get('/max-min-avg-state-by-vl-per-qt', transationController.maxMinAvgStat
 router.get('/max-pix-avg-region', transationController.maxPixAvgRegion);
 router.get('/pix-by-region', transationController.pixByRegion);
 router.get('/cities-with-most-individual-transations', transationController.citiesWithMostIndividualTransations);
+router.get('/higher-avg-on-vl-company-payer', transationController.higherAvgOnVlCompanyPayer);
 
 export default router;

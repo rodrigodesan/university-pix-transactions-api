@@ -1,4 +1,4 @@
-import { literal } from "sequelize";
+import { literal, fn, col } from "sequelize";
 import Transation from "../models/Transation";
 import YearMonth from "../models/YearMonth";
 import Year from "../models/Year";
@@ -230,6 +230,56 @@ class TransationController {
         order: [['pix_individual', 'DESC']],
         group: ['City.id', 'City->State.id'],
         limit: 10,
+      });
+
+      return res.json(transationsCities);
+    } catch (e) {
+      console.log(e);
+      return res.status(400).json({
+        errors: ['Search error'],
+      });
+    }
+  }
+
+  async higherAvgOnVlCompanyPayer(req, res) {
+    try {
+      const { minAvg } = req.query;
+
+      if (!minAvg || Number.isNaN(minAvg)) {
+        return res.status(400).json({
+          errors: ['Missing or not numeric minAvg'],
+        });
+      }
+
+      const transationsCities = await Transation.findAll({
+        attributes: [
+          [fn('avg', col('vl_company_payer')), 'average'],
+          [literal('"City"."name"'), 'city'],
+          [literal('"City->State"."name"'), 'state'],
+          [literal('"City"."ibge_code"'), 'city_code'],
+          [literal('"City->State"."ibge_code"'), 'state_code'],
+        ],
+        include: [
+          {
+            model: City,
+            include: { model: State, attributes: [], required: true },
+            attributes: [],
+            required: true,
+          },
+          {
+            model: YearMonth,
+            attributes: [],
+            required: true,
+            include: {
+              model: Year,
+              attributes: [],
+              required: true,
+            },
+          },
+        ],
+        having: literal(`AVG("vl_company_payer") > ${minAvg}`),
+        order: [['average', 'DESC']],
+        group: ['City.id', 'City->State.id'],
       });
 
       return res.json(transationsCities);
