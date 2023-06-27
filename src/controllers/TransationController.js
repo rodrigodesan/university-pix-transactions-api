@@ -290,6 +290,60 @@ class TransationController {
       });
     }
   }
+
+  async citiesDifInTransationVl(req, res) {
+    try {
+      const { year, order } = req.query;
+
+      if (!year) {
+        return res.status(400).json({
+          errors: ['Missing YEAR'],
+        });
+      }
+
+      const transationsCities = await Transation.findAll({
+        attributes: [
+          [
+            literal(`SUM(("vl_individual_receiver" + "vl_company_receiver")-("vl_individual_payer" + "vl_company_payer"))`),
+            'dif_rec_pay',
+          ],
+          [literal('"City"."name"'), 'city'],
+          [literal('"City->State"."name"'), 'state'],
+          [literal('"City"."ibge_code"'), 'city_code'],
+          [literal('"City->State"."ibge_code"'), 'state_code'],
+        ],
+        include: [
+          {
+            model: City,
+            include: { model: State, attributes: [], required: true },
+            attributes: [],
+            required: true,
+          },
+          {
+            model: YearMonth,
+            attributes: [],
+            required: true,
+            include: {
+              model: Year,
+              attributes: [],
+              where: { id: year },
+              required: true,
+            },
+          },
+        ],
+        order: [['dif_rec_pay', order && order.match(/ASC|DESC|asc|desc/) ? order : 'ASC']],
+        group: ['City.id', 'City->State.id'],
+        limit: 10,
+      });
+
+      return res.json(transationsCities);
+    } catch (e) {
+      console.log(e);
+      return res.status(400).json({
+        errors: ['Search error'],
+      });
+    }
+  }
 }
 
 export default new TransationController();
