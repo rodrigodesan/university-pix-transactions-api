@@ -344,6 +344,128 @@ class TransationController {
       });
     }
   }
+
+  async highestTransationVlStateYear(req, res) {
+    try {
+      const { year, state } = req.query;
+
+      if (!year || !state) {
+        return res.status(400).json({
+          errors: ['Missing YEAR or STATE'],
+        });
+      }
+
+      const transationsMonth = await Transation.findAll({
+        attributes: [
+          [
+            literal(`SUM(("qt_individual_receiver" + "qt_company_receiver")+("qt_individual_payer" + "qt_company_payer"))`),
+            'trans_total',
+          ],
+          [literal('"YearMonth"."month"'), 'month'],
+          [literal('"YearMonth"."month_num"'), 'month_num'],
+        ],
+        include: [
+          {
+            model: City,
+            include: {
+              model: State,
+              attributes: [],
+              required: true,
+              where: { id: state },
+            },
+            attributes: [],
+            required: true,
+          },
+          {
+            model: YearMonth,
+            attributes: [],
+            required: true,
+            include: {
+              model: Year,
+              attributes: [],
+              where: { id: year },
+              required: true,
+            },
+          },
+        ],
+        order: [['trans_total', 'desc']],
+        group: ['YearMonth.id'],
+        limit: 1,
+      });
+
+      return res.json(transationsMonth[0]);
+    } catch (e) {
+      console.log(e);
+      return res.status(400).json({
+        errors: ['Search error'],
+      });
+    }
+  }
+
+  async highestTransationVlRegion(req, res) {
+    try {
+      const { region } = req.query;
+
+      if (!region) {
+        return res.status(400).json({
+          errors: ['Missing STATE'],
+        });
+      }
+
+      const transationsMonth = await Transation.findAll({
+        attributes: [
+          [
+            literal(`"qt_individual_receiver" + "qt_company_receiver"+"qt_individual_payer" + "qt_company_payer"`),
+            'trans_total',
+          ],
+          [literal('"City"."name"'), 'city'],
+          [literal('"City"."ibge_code"'), 'city_code'],
+          [literal('"City->State"."name"'), 'state'],
+          [literal('"City->State"."ibge_code"'), 'state_code'],
+          [literal('"YearMonth"."month"'), 'month'],
+          [literal('"YearMonth"."month_num"'), 'month_num'],
+          [literal('"YearMonth->Year"."year"'), 'year'],
+        ],
+        include: [
+          {
+            model: City,
+            include: {
+              model: State,
+              attributes: [],
+              required: true,
+              include: {
+                model: Region,
+                attributes: [],
+                required: true,
+                where: { id: region },
+              },
+            },
+            attributes: [],
+            required: true,
+          },
+          {
+            model: YearMonth,
+            attributes: [],
+            required: true,
+            include: {
+              model: Year,
+              attributes: [],
+              required: true,
+            },
+          },
+        ],
+        order: [['trans_total', 'desc']],
+        limit: 1,
+      });
+
+      return res.json(transationsMonth[0]);
+    } catch (e) {
+      console.log(e);
+      return res.status(400).json({
+        errors: ['Search error'],
+      });
+    }
+  }
 }
 
 export default new TransationController();

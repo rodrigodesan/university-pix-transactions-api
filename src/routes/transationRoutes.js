@@ -10,5 +10,7 @@ router.get('/pix-by-region', transationController.pixByRegion);
 router.get('/cities-with-most-individual-transations', transationController.citiesWithMostIndividualTransations);
 router.get('/higher-avg-on-vl-company-payer', transationController.higherAvgOnVlCompanyPayer);
 router.get('/cities-diff-in-transation-vl', transationController.citiesDifInTransationVl);
+router.get('/highest-transation-vl-state-year', transationController.highestTransationVlStateYear);
+router.get('/highest-transation-vl-region', transationController.highestTransationVlRegion);
 
 export default router;
