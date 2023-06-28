@@ -7,13 +7,40 @@ import State from "../models/State";
 import Region from "../models/Region";
 
 class TransationController {
-  async index(___, res) {
+  async index(req, res) {
     try {
       const transations = await Transation.findAll({
         order: [['year_month']],
-        limit: 10000,
+        attributes: ['id', 'vl_individual_payer', 'qt_individual_payer', 'vl_company_payer', 'qt_company_payer', 'vl_individual_receiver', 'qt_individual_receiver', 'vl_company_receiver', 'qt_company_receiver', 'city', 'year_month'],
       });
       return res.json(transations);
+    } catch (e) {
+      console.log(e);
+      return res.status(400).json({
+        errors: ['Search error'],
+      });
+    }
+  }
+
+  async show(req, res) {
+    try {
+      const { id } = req.params;
+
+      if (!id) {
+        return res.status(400).json({
+          errors: ['Missing ID'],
+        });
+      }
+      const transation = await Transation.findByPk(id, {
+        attributes: ['id', 'vl_individual_payer', 'qt_individual_payer', 'vl_company_payer', 'qt_company_payer', 'vl_individual_receiver', 'qt_individual_receiver', 'vl_company_receiver', 'qt_company_receiver', 'city', 'year_month'],
+      });
+
+      if (!transation) {
+        return res.status(400).json({
+          errors: ['Transation doesn\'t exists'],
+        });
+      }
+      return res.json(transation);
     } catch (e) {
       console.log(e);
       return res.status(400).json({

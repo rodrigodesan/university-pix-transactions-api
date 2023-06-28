@@ -35,7 +35,7 @@ class YearController {
         order: [['year'], [YearMonth, 'month_num']],
         include: {
           model: YearMonth,
-          attributes: ['year', 'month', 'month_num'],
+          attributes: ['month', 'month_num'],
         },
       });
 

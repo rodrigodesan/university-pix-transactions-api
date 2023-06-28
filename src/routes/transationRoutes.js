@@ -4,6 +4,7 @@ import transationController from '../controllers/TransationController';
 const router = new Router();
 
 router.get('/', transationController.index);
+router.get('/show/:id', transationController.show);
 router.get('/max-min-avg-state-by-vl-per-qt', transationController.maxMinAvgStateByVlPerQt);
 router.get('/max-pix-avg-region', transationController.maxPixAvgRegion);
 router.get('/pix-by-region', transationController.pixByRegion);
