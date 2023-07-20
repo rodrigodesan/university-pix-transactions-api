@@ -1,7 +1,5 @@
-import Sequelize from 'sequelize';
+import Sequelize, { Model } from 'sequelize';
 import bcryptjs from 'bcryptjs';
-
-const { Model } = Sequelize;
 
 export default class User extends Model {
   static init(sequelize) {

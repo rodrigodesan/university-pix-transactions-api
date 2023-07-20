@@ -6,8 +6,9 @@ import City from '../models/City';
 import Year from '../models/Year';
 import YearMonth from '../models/YearMonth';
 import Transation from '../models/Transation';
+import User from '../models/User';
 
-const models = [Region, State, City, Year, YearMonth, Transation];
+const models = [Region, State, City, Year, YearMonth, Transation, User];
 
 const connection = new Sequelize(databaseConfig);
 
