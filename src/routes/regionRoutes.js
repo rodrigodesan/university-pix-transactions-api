@@ -1,9 +1,9 @@
 import { Router } from "express";
-import RegionController from "../controllers/RegionController.";
+import regionController from "../controllers/RegionController.";
 
 const router = new Router();
 
-router.get('/', RegionController.index);
-router.get('/show/:id', RegionController.show);
+router.get('/', regionController.index);
+router.get('/show/:id', regionController.show);
 
 export default router;

@@ -1,9 +1,9 @@
 import { Router } from "express";
-import StateController from "../controllers/StateController";
+import stateController from "../controllers/StateController";
 
 const router = new Router();
 
-router.get('/', StateController.index);
-router.get('/show/:id', StateController.show);
+router.get('/', stateController.index);
+router.get('/show/:id', stateController.show);
 
 export default router;

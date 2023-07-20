@@ -1,9 +1,9 @@
 import { Router } from "express";
-import CityController from "../controllers/CityController";
+import cityController from "../controllers/CityController";
 
 const router = new Router();
 
-router.get('/', CityController.index);
-router.get('/show/:id', CityController.show);
+router.get('/', cityController.index);
+router.get('/show/:id', cityController.show);
 
 export default router;

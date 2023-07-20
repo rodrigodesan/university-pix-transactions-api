@@ -1,9 +1,9 @@
 import { Router } from "express";
-import YearController from "../controllers/YearController";
+import yearController from "../controllers/YearController";
 
 const router = new Router();
 
-router.get('/', YearController.index);
-router.get('/show/:id', YearController.show);
+router.get('/', yearController.index);
+router.get('/show/:id', yearController.show);
 
 export default router;
