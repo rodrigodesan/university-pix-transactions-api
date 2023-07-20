@@ -9,6 +9,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 
 import cityRoutes from './routes/cityRoutes';
+import loginRoutes from './routes/loginRoutes';
 import regionRoutes from './routes/regionRoutes';
 import stateRoutes from './routes/stateRoutes';
 import transationRoutes from './routes/transationRoutes';
@@ -45,6 +46,7 @@ class App {
 
   routes() {
     this.app.use('/cities', cityRoutes);
+    this.app.use('/login', loginRoutes);
     this.app.use('/regions', regionRoutes);
     this.app.use('/states', stateRoutes);
     this.app.use('/transations', transationRoutes);
