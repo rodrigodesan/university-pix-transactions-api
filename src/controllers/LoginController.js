@@ -3,6 +3,23 @@ import User from '../models/User';
 import Login from '../models/Login';
 
 class LoginController {
+  async index(req, res) {
+    try {
+      const logins = await Login.findAll({
+        attributes: ['id', 'latitude', 'longitude'],
+        order: [['created_at', 'DESC']],
+        include: {
+          model: User,
+          attributes: ['id', 'name', 'email'],
+        },
+      });
+      return res.json(logins);
+    } catch (e) {
+      console.log(e);
+      return res.json(null);
+    }
+  }
+
   async store(req, res) {
     try {
       const {
@@ -29,14 +46,14 @@ class LoginController {
         });
       }
 
-      const { id } = user;
-      const token = jwt.sign({ id, email }, process.env.TOKEN_SECRET, {
+      const { id, name } = user;
+      const token = jwt.sign({ id, email, name }, process.env.TOKEN_SECRET, {
         expiresIn: process.env.TOKEN_EXPIRATION,
       });
 
       const login = await Login.create({ latitude, longitude, user: id });
 
-      return res.json({ token, user: { id, email, nome: user.name }, login });
+      return res.json({ token, user: { id, email, name }, login });
     } catch (e) {
       return res.status(400).json({
         errors: e.errors.map((err) => err.message),
@@ -44,20 +61,36 @@ class LoginController {
     }
   }
 
-  async index(req, res) {
+  async validate(req, res) {
     try {
-      const logins = await Login.findAll({
-        attributes: ['id', 'latitude', 'longitude'],
-        order: [['created_at', 'DESC']],
-        include: {
-          model: User,
-          attributes: ['id', 'name', 'email'],
+      const { token } = req.body;
+
+      if (!token) {
+        return res.status(400).json({
+          errors: ['Token required'],
+        });
+      }
+      const data = jwt.verify(token, process.env.TOKEN_SECRET);
+      const { id, email, name } = data;
+
+      const user = await User.findOne({
+        where: {
+          id,
+          email,
         },
       });
-      return res.json(logins);
+
+      if (!user) {
+        return res.status(400).json({
+          errors: ['Invalid user'],
+        });
+      }
+
+      return res.json({ user: { id, email, name } });
     } catch (e) {
-      console.log(e);
-      return res.json(null);
+      return res.status(400).json({
+        errors: ['Invalid or expired Token'],
+      });
     }
   }
 }

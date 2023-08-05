@@ -77,6 +77,7 @@ class UserController {
   // Delete
   async delete(req, res) {
     try {
+      console.log(req);
       const user = await User.findByPk(req.userId);
 
       if (!user) {
