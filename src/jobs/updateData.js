@@ -3,7 +3,7 @@ import axios from 'axios';
 import Year from '../models/Year';
 import YearMonth from '../models/YearMonth';
 import City from '../models/City';
-import Transation from '../models/Transation';
+import Transaction from '../models/Transaction';
 
 function getYear(year) {
   return Year.findOne({
@@ -101,8 +101,8 @@ async function updateDB() {
       }
     });
 
-    const createdTransations = await Transation.bulkCreate(transactionsToCreate);
-    console.log(createdTransations);
+    const createdTransactions = await Transaction.bulkCreate(transactionsToCreate);
+    console.log(createdTransactions);
   } catch (err) {
     console.log(err);
   }

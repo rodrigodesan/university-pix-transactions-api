@@ -2,7 +2,7 @@ import Sequelize from 'sequelize';
 
 const { Model } = Sequelize;
 
-export default class Transation extends Model {
+export default class Transaction extends Model {
   static init(sequelize) {
     super.init({
       vl_individual_payer: Sequelize.FLOAT,

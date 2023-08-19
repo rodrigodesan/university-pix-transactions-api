@@ -1,19 +1,19 @@
 import { literal, fn, col } from "sequelize";
-import Transation from "../models/Transation";
+import Transaction from "../models/Transaction";
 import YearMonth from "../models/YearMonth";
 import Year from "../models/Year";
 import City from "../models/City";
 import State from "../models/State";
 import Region from "../models/Region";
 
-class TransationController {
+class TransactionController {
   async index(req, res) {
     try {
-      const transations = await Transation.findAll({
+      const transactions = await Transaction.findAll({
         order: [['year_month']],
         attributes: ['id', 'vl_individual_payer', 'qt_individual_payer', 'vl_company_payer', 'qt_company_payer', 'vl_individual_receiver', 'qt_individual_receiver', 'vl_company_receiver', 'qt_company_receiver', 'city', 'year_month'],
       });
-      return res.json(transations);
+      return res.json(transactions);
     } catch (e) {
       console.log(e);
       return res.status(400).json({
@@ -31,16 +31,16 @@ class TransationController {
           errors: ['Missing ID'],
         });
       }
-      const transation = await Transation.findByPk(id, {
+      const transaction = await Transaction.findByPk(id, {
         attributes: ['id', 'vl_individual_payer', 'qt_individual_payer', 'vl_company_payer', 'qt_company_payer', 'vl_individual_receiver', 'qt_individual_receiver', 'vl_company_receiver', 'qt_company_receiver', 'city', 'year_month'],
       });
 
-      if (!transation) {
+      if (!transaction) {
         return res.status(400).json({
-          errors: ['Transation doesn\'t exists'],
+          errors: ['Transaction doesn\'t exists'],
         });
       }
-      return res.json(transation);
+      return res.json(transaction);
     } catch (e) {
       console.log(e);
       return res.status(400).json({
@@ -58,7 +58,7 @@ class TransationController {
           errors: ['Missing YEAR'],
         });
       }
-      const transationsState = await Transation.findAll({
+      const transactionsState = await Transaction.findAll({
         attributes: [
           [
             literal(`SUM("vl_individual_payer" + "vl_company_payer")/SUM("qt_individual_payer" + "qt_company_payer")`),
@@ -91,7 +91,7 @@ class TransationController {
         limit: 1,
       });
 
-      return res.json(transationsState[0]);
+      return res.json(transactionsState[0]);
     } catch (e) {
       console.log(e);
       return res.status(400).json({
@@ -110,7 +110,7 @@ class TransationController {
         });
       }
 
-      const transationsRegion = await Transation.findAll({
+      const transactionsRegion = await Transaction.findAll({
         attributes: [
           [
             literal(`SUM("vl_individual_receiver" + "vl_company_receiver")/SUM("qt_individual_receiver" + "qt_company_receiver")`),
@@ -148,7 +148,7 @@ class TransationController {
         limit: 1,
       });
 
-      return res.json(transationsRegion[0]);
+      return res.json(transactionsRegion[0]);
     } catch (e) {
       console.log(e);
       return res.status(400).json({
@@ -167,7 +167,7 @@ class TransationController {
         });
       }
 
-      const transationRegions = await Transation.findAll({
+      const transactionRegions = await Transaction.findAll({
         attributes: [
           [
             literal(`SUM("qt_individual_receiver" + "qt_company_receiver" + "qt_individual_payer" + "qt_company_payer")`),
@@ -204,7 +204,7 @@ class TransationController {
         group: ['City->State->Region.id'],
       });
 
-      return res.json(transationRegions);
+      return res.json(transactionRegions);
     } catch (e) {
       console.log(e);
       return res.status(400).json({
@@ -213,7 +213,7 @@ class TransationController {
     }
   }
 
-  async citiesWithMostIndividualTransations(req, res) {
+  async citiesWithMostIndividualTransactions(req, res) {
     try {
       const { year, months } = req.query;
 
@@ -223,7 +223,7 @@ class TransationController {
         });
       }
 
-      const transationsCities = await Transation.findAll({
+      const transactionsCities = await Transaction.findAll({
         attributes: [
           [
             literal(`SUM("qt_individual_receiver" + "qt_individual_payer")`),
@@ -259,7 +259,7 @@ class TransationController {
         limit: 10,
       });
 
-      return res.json(transationsCities);
+      return res.json(transactionsCities);
     } catch (e) {
       console.log(e);
       return res.status(400).json({
@@ -278,7 +278,7 @@ class TransationController {
         });
       }
 
-      const transationsCities = await Transation.findAll({
+      const transactionsCities = await Transaction.findAll({
         attributes: [
           [fn('avg', col('vl_company_payer')), 'average'],
           [literal('"City"."name"'), 'city'],
@@ -309,7 +309,7 @@ class TransationController {
         group: ['City.id', 'City->State.id'],
       });
 
-      return res.json(transationsCities);
+      return res.json(transactionsCities);
     } catch (e) {
       console.log(e);
       return res.status(400).json({
@@ -318,7 +318,7 @@ class TransationController {
     }
   }
 
-  async citiesDifInTransationVl(req, res) {
+  async citiesDifInTransactionVl(req, res) {
     try {
       const { year, order } = req.query;
 
@@ -328,7 +328,7 @@ class TransationController {
         });
       }
 
-      const transationsCities = await Transation.findAll({
+      const transactionsCities = await Transaction.findAll({
         attributes: [
           [
             literal(`SUM(("vl_individual_receiver" + "vl_company_receiver")-("vl_individual_payer" + "vl_company_payer"))`),
@@ -363,7 +363,7 @@ class TransationController {
         limit: 10,
       });
 
-      return res.json(transationsCities);
+      return res.json(transactionsCities);
     } catch (e) {
       console.log(e);
       return res.status(400).json({
@@ -372,7 +372,7 @@ class TransationController {
     }
   }
 
-  async highestTransationVlStateYear(req, res) {
+  async highestTransactionVlStateYear(req, res) {
     try {
       const { year, state } = req.query;
 
@@ -382,7 +382,7 @@ class TransationController {
         });
       }
 
-      const transationsMonth = await Transation.findAll({
+      const transactionsMonth = await Transaction.findAll({
         attributes: [
           [
             literal(`SUM(("qt_individual_receiver" + "qt_company_receiver")+("qt_individual_payer" + "qt_company_payer"))`),
@@ -420,7 +420,7 @@ class TransationController {
         limit: 1,
       });
 
-      return res.json(transationsMonth[0]);
+      return res.json(transactionsMonth[0]);
     } catch (e) {
       console.log(e);
       return res.status(400).json({
@@ -429,7 +429,7 @@ class TransationController {
     }
   }
 
-  async highestTransationVlRegion(req, res) {
+  async highestTransactionVlRegion(req, res) {
     try {
       const { region } = req.query;
 
@@ -439,7 +439,7 @@ class TransationController {
         });
       }
 
-      const transationsMonth = await Transation.findAll({
+      const transactionsMonth = await Transaction.findAll({
         attributes: [
           [
             literal(`"qt_individual_receiver" + "qt_company_receiver"+"qt_individual_payer" + "qt_company_payer"`),
@@ -485,7 +485,7 @@ class TransationController {
         limit: 1,
       });
 
-      return res.json(transationsMonth[0]);
+      return res.json(transactionsMonth[0]);
     } catch (e) {
       console.log(e);
       return res.status(400).json({
@@ -495,4 +495,4 @@ class TransationController {
   }
 }
 
-export default new TransationController();
+export default new TransactionController();

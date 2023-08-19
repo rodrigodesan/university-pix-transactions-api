@@ -15,6 +15,6 @@ export default class City extends Model {
 
   static associate(models) {
     this.belongsTo(models.State, { foreignKey: 'state' });
-    this.hasMany(models.Transation, { foreignKey: 'city' });
+    this.hasMany(models.Transaction, { foreignKey: 'city' });
   }
 }

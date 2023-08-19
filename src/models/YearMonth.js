@@ -14,7 +14,7 @@ export default class YearMonth extends Model {
   }
 
   static associate(models) {
-    this.hasMany(models.Transation, { foreignKey: 'year_month' });
+    this.hasMany(models.Transaction, { foreignKey: 'year_month' });
     this.belongsTo(models.Year, { foreignKey: 'year' });
   }
 }

@@ -13,7 +13,7 @@ import cityRoutes from './routes/cityRoutes';
 import loginRoutes from './routes/loginRoutes';
 import regionRoutes from './routes/regionRoutes';
 import stateRoutes from './routes/stateRoutes';
-import transationRoutes from './routes/transationRoutes';
+import transactionRoutes from './routes/transactionRoutes';
 import userRoutes from './routes/userRoutes';
 import yearMonthRoutes from './routes/yearMonthRoutes';
 import yearRoutes from './routes/yearRoutes';
@@ -50,7 +50,7 @@ class App {
     this.app.use('/login', loginRoutes);
     this.app.use('/regions', regionRoutes);
     this.app.use('/states', stateRoutes);
-    this.app.use('/transations', transationRoutes);
+    this.app.use('/transactions', transactionRoutes);
     this.app.use('/users', userRoutes);
     this.app.use('/year-months', yearMonthRoutes);
     this.app.use('/years', yearRoutes);

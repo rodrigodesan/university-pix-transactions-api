@@ -5,11 +5,11 @@ import State from '../models/State';
 import City from '../models/City';
 import Year from '../models/Year';
 import YearMonth from '../models/YearMonth';
-import Transation from '../models/Transation';
+import Transaction from '../models/Transaction';
 import User from '../models/User';
 import Login from '../models/Login';
 
-const models = [Region, State, City, Year, YearMonth, Transation, User, Login];
+const models = [Region, State, City, Year, YearMonth, Transaction, User, Login];
 
 const connection = new Sequelize(databaseConfig);
 
