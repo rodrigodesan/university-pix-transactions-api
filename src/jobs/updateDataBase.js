@@ -5,25 +5,15 @@ import YearMonth from '../models/YearMonth';
 import City from '../models/City';
 import Transaction from '../models/Transaction';
 
-function getYear(year) {
-  return Year.findOne({
+async function getOrCreateYear(year) {
+  const thisYear = await Year.findOrCreate({
     where: { year },
+    defaults: { year },
   });
+  return thisYear[0];
 }
 
-function createYear(year) {
-  return Year.create({
-    year,
-  });
-}
-
-function getYearMonth(yearId, month) {
-  return YearMonth.findOne({
-    where: { month_num: month, year: yearId },
-  });
-}
-
-function createYearMonth(yearId, monthNum) {
+async function getOrCreateYearMonth(year, month_num) {
   const months = {
     1: 'January',
     2: 'February',
@@ -38,11 +28,16 @@ function createYearMonth(yearId, monthNum) {
     11: 'November',
     12: 'December',
   };
-  return YearMonth.create({
-    month_num: monthNum,
-    month: (months[monthNum]).toUpperCase(),
-    year: yearId,
+  const yearMonths = await YearMonth.findOrCreate({
+    where: { month_num, year },
+    defaults: {
+      month_num,
+      month: (months[month_num]).toUpperCase(),
+      year,
+    },
   });
+
+  return yearMonths[0];
 }
 
 async function getData(yearMonth) {
@@ -60,17 +55,12 @@ async function updateDB() {
     const { value: monthData } = await getData(currentYearMonth);
     console.log(monthData);
 
-    let year = await getYear(currentYear);
+    const year = await getOrCreateYear(currentYear);
     console.log(year);
-    if (!year) {
-      year = await createYear(currentYear);
-    }
+    console.log(year.id);
 
-    let yearMonth = await getYearMonth(year.id, currentMonth);
+    const yearMonth = await getOrCreateYearMonth(year.id, currentMonth);
     console.log(yearMonth);
-    if (!yearMonth) {
-      yearMonth = await createYearMonth(year.id, currentMonth);
-    }
 
     const cities = await City.findAll();
 
@@ -109,6 +99,6 @@ async function updateDB() {
 }
 
 cron.schedule('0 18 1 * *', () => {
-  console.log(`Task "Update Data" is running at ${new Date()}`);
+  console.log(`Task "Update DataBase" is running at ${new Date()}`);
   updateDB();
 });
