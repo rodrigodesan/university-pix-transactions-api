@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import './database';
+import './jobs/updateData';
 
 import express from 'express';
 import cors from 'cors';
