@@ -1,8 +1,8 @@
-# university-pix-transations-api
+# university-pix-transactions-api
 
-Frontend: https://github.com/rodrigodesan/university-pix-transations-app
+Frontend: https://github.com/rodrigodesan/university-pix-transactions-app
 
-Deployment: https://pix-transations-api.onrender.com
+Deployment: https://pix-transactions-api.onrender.com
 
 
 .env format:
@@ -14,6 +14,8 @@ DATABASE_PORT=
 DATABASE_USERNAME=
 DATABASE_PASSWORD=
 DATABASE=
+TOKEN_SECRET=
+TOKEN_EXPIRATION=
 ```
 
 Starting up:
