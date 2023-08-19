@@ -2,7 +2,7 @@
 
 Frontend: https://github.com/rodrigodesan/university-pix-transactions-app
 
-Deployment: https://pix-transactions-api.onrender.com
+Deployment: https://pix-transations-api.onrender.com
 
 
 .env format:
