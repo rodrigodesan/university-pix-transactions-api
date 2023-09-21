@@ -46,6 +46,8 @@ module.exports = {
           model: 'cities',
           key: 'id',
         },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       year_month: {
         type: Sequelize.INTEGER,
@@ -54,6 +56,8 @@ module.exports = {
           model: 'year_months',
           key: 'id',
         },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       created_at: {
         type: Sequelize.DATE,

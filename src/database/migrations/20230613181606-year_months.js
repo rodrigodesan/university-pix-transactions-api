@@ -22,6 +22,8 @@ module.exports = {
           model: 'years',
           key: 'id',
         },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       created_at: {
         type: Sequelize.DATE,

@@ -1,4 +1,6 @@
-import { literal, fn, col } from "sequelize";
+import {
+  literal, fn, col, Op,
+} from "sequelize";
 import Transaction from "../models/Transaction";
 import YearMonth from "../models/YearMonth";
 import Year from "../models/Year";
@@ -51,13 +53,17 @@ class TransactionController {
 
   async maxMinAvgStateByVlPerQt(req, res) {
     try {
-      const { year, order } = req.query;
+      const { startYear, endYear, order } = req.query;
 
-      if (!year) {
+      if (!startYear || !endYear) {
         return res.status(400).json({
           errors: ['Missing YEAR'],
         });
       }
+
+      const [startYearNum, endYearNum] = await Promise.all([
+        Year.findByPk(startYear), Year.findByPk(endYear),
+      ]);
       const transactionsState = await Transaction.findAll({
         attributes: [
           [
@@ -79,7 +85,12 @@ class TransactionController {
             include: {
               model: Year,
               attributes: [],
-              where: { id: year },
+              where: {
+                year: {
+                  [Op.gte]: startYearNum.year,
+                  [Op.lte]: endYearNum.year,
+                },
+              },
               required: true,
             },
             attributes: [],
@@ -102,14 +113,17 @@ class TransactionController {
 
   async maxPixAvgRegion(req, res) {
     try {
-      const { year } = req.query;
+      const { startYear, endYear } = req.query;
 
-      if (!year) {
+      if (!startYear || !endYear) {
         return res.status(400).json({
           errors: ['Missing YEAR'],
         });
       }
 
+      const [startYearNum, endYearNum] = await Promise.all([
+        Year.findByPk(startYear), Year.findByPk(endYear),
+      ]);
       const transactionsRegion = await Transaction.findAll({
         attributes: [
           [
@@ -136,7 +150,12 @@ class TransactionController {
             include: {
               model: Year,
               attributes: [],
-              where: { id: year },
+              where: {
+                year: {
+                  [Op.gte]: startYearNum.year,
+                  [Op.lte]: endYearNum.year,
+                },
+              },
               required: true,
             },
             attributes: [],
@@ -159,14 +178,17 @@ class TransactionController {
 
   async pixByRegion(req, res) {
     try {
-      const { year } = req.query;
+      const { startYear, endYear } = req.query;
 
-      if (!year) {
+      if (!startYear || !endYear) {
         return res.status(400).json({
           errors: ['Missing YEAR'],
         });
       }
 
+      const [startYearNum, endYearNum] = await Promise.all([
+        Year.findByPk(startYear), Year.findByPk(endYear),
+      ]);
       const transactionRegions = await Transaction.findAll({
         attributes: [
           [
@@ -196,7 +218,12 @@ class TransactionController {
               model: Year,
               attributes: [],
               required: true,
-              where: { id: year },
+              where: {
+                year: {
+                  [Op.gte]: startYearNum.year,
+                  [Op.lte]: endYearNum.year,
+                },
+              },
             },
           },
         ],
@@ -320,14 +347,17 @@ class TransactionController {
 
   async citiesDifInTransactionVl(req, res) {
     try {
-      const { year, order } = req.query;
+      const { startYear, endYear, order } = req.query;
 
-      if (!year) {
+      if (!startYear || !endYear) {
         return res.status(400).json({
           errors: ['Missing YEAR'],
         });
       }
 
+      const [startYearNum, endYearNum] = await Promise.all([
+        Year.findByPk(startYear), Year.findByPk(endYear),
+      ]);
       const transactionsCities = await Transaction.findAll({
         attributes: [
           [
@@ -353,7 +383,12 @@ class TransactionController {
             include: {
               model: Year,
               attributes: [],
-              where: { id: year },
+              where: {
+                year: {
+                  [Op.gte]: startYearNum.year,
+                  [Op.lte]: endYearNum.year,
+                },
+              },
               required: true,
             },
           },
@@ -374,14 +409,17 @@ class TransactionController {
 
   async highestTransactionVlStateYear(req, res) {
     try {
-      const { year, state } = req.query;
+      const { startYear, endYear, state } = req.query;
 
-      if (!year || !state) {
+      if (!startYear || !endYear || !state) {
         return res.status(400).json({
           errors: ['Missing YEAR or STATE'],
         });
       }
 
+      const [startYearNum, endYearNum] = await Promise.all([
+        Year.findByPk(startYear), Year.findByPk(endYear),
+      ]);
       const transactionsMonth = await Transaction.findAll({
         attributes: [
           [
@@ -410,7 +448,12 @@ class TransactionController {
             include: {
               model: Year,
               attributes: [],
-              where: { id: year },
+              where: {
+                year: {
+                  [Op.gte]: startYearNum.year,
+                  [Op.lte]: endYearNum.year,
+                },
+              },
               required: true,
             },
           },
