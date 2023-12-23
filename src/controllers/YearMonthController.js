@@ -1,3 +1,4 @@
+import Year from "../models/Year";
 import YearMonth from "../models/YearMonth";
 
 class YearMonthController {
@@ -6,6 +7,7 @@ class YearMonthController {
       const yearMonths = await YearMonth.findAll({
         attributes: ['id', 'month_num', 'month', 'year'],
         order: [['year'], ['month_num']],
+        include: Year,
       });
       return res.json(yearMonths);
     } catch (e) {

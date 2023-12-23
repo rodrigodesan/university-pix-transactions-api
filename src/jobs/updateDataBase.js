@@ -46,6 +46,13 @@ async function getData(yearMonth) {
   return data;
 }
 
+/* async function addData() {
+  const data = await getData('11/2023');
+  console.log(data);
+}
+
+addData(); */
+
 async function updateDB() {
   try {
     const currentDate = new Date();
@@ -97,8 +104,9 @@ async function updateDB() {
     console.log(err);
   }
 }
-
+/*
 cron.schedule('0 18 1 * *', () => {
   console.log(`Task "Update DataBase" is running at ${new Date()}`);
   updateDB();
 });
+*/
